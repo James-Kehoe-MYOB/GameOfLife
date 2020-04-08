@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using GameOfLife;
+using GameOfLife.Business_Logic;
+using GameOfLife.Business_Logic.Models;
 using Xunit;
 
 namespace GameOfLifeTests {
@@ -23,26 +24,50 @@ namespace GameOfLifeTests {
                 new Cell(3,3,true)
             };
             
-            var gb = new GameBoard(3, 3);
+            var gb = new GameBoard(new BoardProperties(3, 3, binary, new ConsoleUI()));
 
-            gb.Start(binary);
+            gb.InitBoard();
 
             for (var i = 0; i < cellData.Count; i++) {
-                Assert.True(cellData[i].Equals(gb.cellData[i]));
+                Assert.True(cellData[i].Equals(gb.CellData[i]));
             }
         }
 
         [Fact(DisplayName = "Can Return Correct Amount of Alive Neighbours for a Given Cell")]
         public void CanReturnCorrectAmountOfAliveNeighboursForAGivenCell() {
-            
-            var gb = new GameBoard(3, 3);
+
             var binary = "000" +
                          "101" +
                          "111";
+            var gb = new GameBoard(new BoardProperties(3, 3, binary, new ConsoleUI()));
+            gb.InitBoard();
+            gb.UpdateCellData();
+            Assert.Equal(5, gb.CellData[4].AliveNeighbours);
+        }
+
+        [Fact(DisplayName = "Returns Correct Result After 1 Step")]
+        public void ReturnsCorrectResultAfter1Step() {
+
+            var binary = "00000" +
+                         "00100" +
+                         "00010" +
+                         "01110" +
+                         "00000";
+
+            var binaryAfterOneStep = "00000" +
+                                     "00000" +
+                                     "01010" +
+                                     "00110" +
+                                     "00100";
             
-            gb.Start(binary);
-            Assert.Equal(5, gb.cellData[4].aliveNeighbours);
+            var gb1 = new GameBoard(new BoardProperties(5,5,binary,new ConsoleUI()));
+            var gb2 = new GameBoard(new BoardProperties(5,5,binaryAfterOneStep,new ConsoleUI()));
             
+            gb1.Step();
+            
+            for (var i = 0; i < gb1.CellData.Count; i++) {
+                Assert.True(gb1.CellData[i].Equals(gb2.CellData[i]));
+            }
         }
     }
 }

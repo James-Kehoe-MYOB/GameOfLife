@@ -1,9 +1,11 @@
-﻿using System;
+﻿using GameOfLife.Business_Logic;
 
 namespace GameOfLife {
     class EntryPoint {
         static void Main(string[] args) {
-            Console.WriteLine("Hello World!");
+            
+            var sim = new Simulation(new ConsoleUI());
+            sim.Start();
         }
     }
 }
