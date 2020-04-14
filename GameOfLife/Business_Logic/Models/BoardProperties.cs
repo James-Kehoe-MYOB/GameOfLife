@@ -5,13 +5,11 @@ namespace GameOfLife.Business_Logic.Models {
         public int Height { get; private set; }
         public int Width { get; private set; }
         public string Seed { get; private set; }
-        public IUserInterface UserInterface { get; private set; }
 
-        public BoardProperties(int height, int width, string seed, IUserInterface userInterface) {
+        public BoardProperties(int height, int width, string seed) {
             Height = height;
             Width = width;
             Seed = seed;
-            UserInterface = userInterface;
         }
     }
 }

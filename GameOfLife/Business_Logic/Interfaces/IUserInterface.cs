@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using GameOfLife.Business_Logic.Models;
 
 namespace GameOfLife.Business_Logic.Interfaces {
     public interface IUserInterface {
@@ -9,15 +10,11 @@ namespace GameOfLife.Business_Logic.Interfaces {
 
         public string Read();
 
-        public int ReadAsInt();
+        public void WriteBoard(IEnumerable<Cell> board, int height, int width);
 
-        public void WriteBoard(List<Cell> board, int height, int width);
+        public void WriteChoices();
 
-        public int ReadHeight();
-
-        public int ReadWidth();
-
-        public string ReadSeed();
+        public BoardProperties ReadSelection();
 
     }
 }

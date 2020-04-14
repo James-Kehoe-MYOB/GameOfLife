@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using GameOfLife.Business_Logic;
 using GameOfLife.Business_Logic.Models;
 using Xunit;
@@ -8,7 +7,7 @@ namespace GameOfLifeTests {
     public class GameBoardTests {
         [Fact(DisplayName = "Can Convert Input Into Board Data")]
         public void CanConvertInputIntoBoardData() {
-            var binary = "000" +
+            var rawData = "000" +
                          "101" +
                          "111";
             
@@ -24,9 +23,7 @@ namespace GameOfLifeTests {
                 new Cell(3,3,true)
             };
             
-            var gb = new GameBoard(new BoardProperties(3, 3, binary, new ConsoleUI()));
-
-            gb.InitBoard();
+            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
 
             for (var i = 0; i < cellData.Count; i++) {
                 Assert.True(cellData[i].Equals(gb.CellData[i]));
@@ -36,37 +33,47 @@ namespace GameOfLifeTests {
         [Fact(DisplayName = "Can Return Correct Amount of Alive Neighbours for a Given Cell")]
         public void CanReturnCorrectAmountOfAliveNeighboursForAGivenCell() {
 
-            var binary = "000" +
+            var rawData = "000" +
                          "101" +
                          "111";
-            var gb = new GameBoard(new BoardProperties(3, 3, binary, new ConsoleUI()));
-            gb.InitBoard();
-            gb.UpdateCellData();
+            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
+            gb.UpdateBoard();
             Assert.Equal(5, gb.CellData[4].AliveNeighbours);
+        }
+        
+        [Fact(DisplayName = "Can Return Correct Amount of Alive Neighbours for an Edge Cell")]
+        public void CanReturnCorrectAmountOfAliveNeighboursForAnEdgeCell() {
+
+            var rawData = "000" +
+                          "101" +
+                          "111";
+            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
+            gb.UpdateBoard();
+            Assert.Equal(4, gb.CellData[3].AliveNeighbours);
         }
 
         [Fact(DisplayName = "Returns Correct Result After 1 Step")]
         public void ReturnsCorrectResultAfter1Step() {
 
-            var binary = "00000" +
+            var rawData = "00000" +
                          "00100" +
                          "00010" +
                          "01110" +
                          "00000";
 
-            var binaryAfterOneStep = "00000" +
+            var dataAfterOneStep = "00000" +
                                      "00000" +
                                      "01010" +
                                      "00110" +
                                      "00100";
             
-            var gb1 = new GameBoard(new BoardProperties(5,5,binary,new ConsoleUI()));
-            var gb2 = new GameBoard(new BoardProperties(5,5,binaryAfterOneStep,new ConsoleUI()));
-            
+            var gb1 = new GameBoard(new BoardProperties(5,5,rawData), new ConsoleUI());
+            var gb2 = new GameBoard(new BoardProperties(5,5,dataAfterOneStep), new ConsoleUI());
+
             gb1.Step();
             
             for (var i = 0; i < gb1.CellData.Count; i++) {
-                Assert.True(gb1.CellData[i].Equals(gb2.CellData[i]));
+                Assert.Equal(gb2.CellData[i].Display, gb1.CellData[i].Display);
             }
         }
     }

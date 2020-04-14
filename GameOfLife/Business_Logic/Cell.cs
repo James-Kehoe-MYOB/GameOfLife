@@ -1,8 +1,8 @@
 namespace GameOfLife.Business_Logic {
     public class Cell {
         
-        public const char Alive = '1';
-        public const char Dead = '0';
+        public const char Alive = 'X';
+        public const char Dead = ' ';
 
         public bool IsAlive { get; set; }
         public int X { get; private set; }

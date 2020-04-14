@@ -6,6 +6,7 @@ namespace GameOfLife {
             
             var sim = new Simulation(new ConsoleUI());
             sim.Start();
+            
         }
     }
 }
