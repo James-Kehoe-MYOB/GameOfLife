@@ -23,7 +23,7 @@ namespace GameOfLifeTests {
                 new Cell(3,3,true)
             };
             
-            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
+            var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
 
             for (var i = 0; i < cellData.Count; i++) {
                 Assert.True(cellData[i].Equals(gb.CellData[i]));
@@ -36,7 +36,7 @@ namespace GameOfLifeTests {
             var rawData = "000" +
                          "101" +
                          "111";
-            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
+            var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
             gb.UpdateBoard();
             Assert.Equal(5, gb.CellData[4].AliveNeighbours);
         }
@@ -47,7 +47,7 @@ namespace GameOfLifeTests {
             var rawData = "000" +
                           "101" +
                           "111";
-            var gb = new GameBoard(new BoardProperties(3, 3, rawData), new ConsoleUI());
+            var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
             gb.UpdateBoard();
             Assert.Equal(4, gb.CellData[3].AliveNeighbours);
         }
@@ -67,8 +67,8 @@ namespace GameOfLifeTests {
                                      "00110" +
                                      "00100";
             
-            var gb1 = new GameBoard(new BoardProperties(5,5,rawData), new ConsoleUI());
-            var gb2 = new GameBoard(new BoardProperties(5,5,dataAfterOneStep), new ConsoleUI());
+            var gb1 = new GameBoard(new BoardProperties(SeedName.Custom, 5,5,rawData), new ConsoleUI());
+            var gb2 = new GameBoard(new BoardProperties(SeedName.Custom, 5,5,dataAfterOneStep), new ConsoleUI());
 
             gb1.Step();
             
