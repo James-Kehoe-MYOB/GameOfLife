@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using GameOfLife.Business_Logic.Models;
+using GameOfLife.Data_Access.Interfaces;
 
 namespace GameOfLife.Business_Logic.Interfaces {
     public interface IUserInterface {
@@ -14,7 +15,7 @@ namespace GameOfLife.Business_Logic.Interfaces {
 
         public void WriteChoices();
 
-        public BoardProperties ReadSelection();
+        public ISeedHandler ReadSelection(string selection);
 
     }
 }

@@ -1,5 +1,5 @@
 namespace GameOfLife.Business_Logic {
-    public enum Seeds {
+    public enum SeedName {
         Glider,
         SmallExploder,
         Custom
