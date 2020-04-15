@@ -12,15 +12,15 @@ namespace GameOfLifeTests {
                          "111";
             
             var cellData = new List<Cell> {
-                new Cell(1,1,false),
-                new Cell(2,1,false),
-                new Cell(3,1,false),
-                new Cell(1,2,true),
-                new Cell(2,2,false),
-                new Cell(3,2,true),
-                new Cell(1,3,true),
-                new Cell(2,3,true),
-                new Cell(3,3,true)
+                new Cell(1,1,false, new BaseCellLogic()),
+                new Cell(2,1,false,new BaseCellLogic()),
+                new Cell(3,1,false,new BaseCellLogic()),
+                new Cell(1,2,true, new BaseCellLogic()),
+                new Cell(2,2,false,new BaseCellLogic()),
+                new Cell(3,2,true, new BaseCellLogic()),
+                new Cell(1,3,true, new BaseCellLogic()),
+                new Cell(2,3,true, new BaseCellLogic()),
+                new Cell(3,3,true, new BaseCellLogic())
             };
             
             var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
@@ -37,7 +37,7 @@ namespace GameOfLifeTests {
                          "101" +
                          "111";
             var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
-            gb.UpdateBoard();
+            gb.Step();
             Assert.Equal(5, gb.CellData[4].AliveNeighbours);
         }
         
@@ -48,7 +48,7 @@ namespace GameOfLifeTests {
                           "101" +
                           "111";
             var gb = new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, rawData), new ConsoleUI());
-            gb.UpdateBoard();
+            gb.Step();
             Assert.Equal(4, gb.CellData[3].AliveNeighbours);
         }
 
