@@ -1,4 +1,5 @@
-﻿using GameOfLife.Business_Logic;
+﻿
+using GameOfLife.Business_Logic;
 
 namespace GameOfLife {
     class EntryPoint {
@@ -6,7 +7,7 @@ namespace GameOfLife {
             
             var sim = new Simulation(new ConsoleUI(), new Validator());
             sim.Start();
-            
+
         }
     }
 }

@@ -23,22 +23,31 @@ namespace GameOfLife.Business_Logic {
 
         public void WriteBoard(IEnumerable<Cell> board, int height, int width) {
             var split = 0;
-            for (var i = 0; i < 2*width; i++) {
-                Console.Write("-");
+            var count = 0;
+            Console.Write("\u2554");
+            for (var i = 0; i < 2*width+1; i++) {
+                Console.Write("\u2550");
             }
 
-            Console.WriteLine("");
+            Console.Write("\u2557" + "\n\u2551 ");
             foreach (var cell in board) {
                 Console.Write(cell.Display + " ");
                 split++;
-                if (split == width) {
-                    Console.Write("\n");
+                if (split == width && count != height-1) {
+                    Console.Write("\u2551\n\u2551 ");
                     split = 0;
+                    count++;
+                } else if (split == width && count == height-1) {
+                    Console.Write("\u2551\n" + "\u2560");
                 }
             }
-            for (var i = 0; i < 2*width; i++) {
-                Console.Write("-");
+            for (var i = 0; i < 2*width+1; i++) {
+                Console.Write(i == 21 ? "\u2566" : "\u2550");
             }
+            Console.WriteLine(width == 10 ? "\u2563" : "\u255D");
+            Console.WriteLine("\u2551 Press Enter to Quit \u2551");
+            Console.Write("╚═════════════════════╝");
+            Console.CursorVisible = false;
         }
 
         public void WriteChoices() {
