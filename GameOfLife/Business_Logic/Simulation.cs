@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Net.Mime;
+using System.Threading;
 using GameOfLife.Business_Logic.Interfaces;
 using GameOfLife.Business_Logic.Models;
 using GameOfLife.Data_Access.Interfaces;
@@ -35,21 +36,34 @@ namespace GameOfLife.Business_Logic {
         }
 
         public void Start() {
-            _userInterface.WriteChoices();
-            var selection = _userInterface.Read();
-            if (_validator.ValidSelection(selection)) {
-                gameBoard = GenerateGameBoard(_userInterface.ReadSelection(selection));
-            }
-            else {
-                Console.WriteLine("Invalid Selection");
-                return;
-            }
-
-            do {
-                while (! Console.KeyAvailable) {
-                    GameLoop();
+            while (true) {
+                _userInterface.WriteChoices();
+                var selection = _userInterface.Read();
+                if (_validator.ValidSelection(selection)) {
+                    gameBoard = GenerateGameBoard(_userInterface.ReadSelection(selection));
                 }
-            } while (Console.ReadKey(false).Key != ConsoleKey.Enter);
+                else {
+                    Console.WriteLine("Invalid Selection");
+                    Thread.Sleep(500);
+                    Console.Clear();
+                    continue;
+                }
+
+                do {
+                    while (!Console.KeyAvailable) {
+                        GameLoop();
+                    }
+                } while (Console.ReadKey(false).Key != ConsoleKey.Enter);
+                
+                
+                Console.WriteLine("Try Again? (Y/N)");
+                if (Console.ReadKey(false).Key == ConsoleKey.Y) {
+                    Console.Clear();
+                    continue;
+                }
+
+                break;
+            }
         }
 
         private void GameLoop() {

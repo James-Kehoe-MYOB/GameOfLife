@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using GameOfLife.Business_Logic;
+using GameOfLife.Business_Logic.Exceptions;
 using GameOfLife.Business_Logic.Interfaces;
 using GameOfLife.Data;
 using GameOfLife.Data_Access.Interfaces;
@@ -21,30 +22,30 @@ namespace GameOfLife.Data_Access {
         }
 
         public int GetHeight() {
+            var height = "0";
             _userInterface.Write("What is the height of the grid? ");
-            var height = _userInterface.Read();
-            if (_validator.ValidHeight(height)) {
-                _height = int.Parse(height);
-                return _height;
+            height = _userInterface.Read();
+            while (!_validator.ValidHeight(height)) {
+                _userInterface.WriteLine("Invalid height!");
+                _userInterface.Write("What is the height of the grid? ");
+                height = _userInterface.Read();
             }
-            else {
-                _userInterface.WriteLine("Invalid Height!");
-                throw new InvalidHeightException(height);
-            }
+            
+            _height = int.Parse(height);
+            return _height;
         }
 
         public int GetWidth() {
+            var width = "0";
             _userInterface.Write("What is the width of the grid? ");
-            var width = _userInterface.Read();
-            if (_validator.ValidWidth(width)) {
-                _width = int.Parse(width);
-                return _width;
+            width = _userInterface.Read();
+            while (!_validator.ValidWidth(width)) {
+                _userInterface.WriteLine("Invalid width!");
+                _userInterface.Write("What is the width of the grid? ");
+                width = _userInterface.Read();
             }
-            else {
-                _userInterface.WriteLine("Invalid Width!");
-                throw new InvalidHeightException(width);
-            }
-            
+            _width = int.Parse(width);
+            return _width;
         }
 
         public string GetSeed() {

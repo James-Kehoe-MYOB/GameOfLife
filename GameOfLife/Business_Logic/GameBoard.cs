@@ -24,7 +24,7 @@ namespace GameOfLife.Business_Logic {
                     '1' => true,
                     _ => throw new Exception()
                 };
-                CellData.Add(new Cell(x, y, isAlive));
+                CellData.Add(new Cell(x, y, isAlive, new BaseCellLogic()));
                 if (x < BoardProperties.Width) {
                     x++;
                 } else if (x == BoardProperties.Width) {
@@ -39,7 +39,7 @@ namespace GameOfLife.Business_Logic {
             UI.WriteBoard(CellData, BoardProperties.Height, BoardProperties.Width);
         }
 
-        public void UpdateBoard() {
+        private void UpdateBoard() {
             foreach (var cell in CellData) {
                 var neighbours = GetNumberOfAliveNeighbours(cell);
                 cell.AliveNeighbours = neighbours;

@@ -4,12 +4,13 @@ using Xunit;
 
 namespace GameOfLifeTests {
     public class ValidationTests {
-        [Fact(DisplayName = "Cannot input invalid seed selection")]
-        public void CannotInputInvalidSeedSelection() {
+        [Fact(DisplayName = "Cannot input invalid seed choice")]
+        public void CannotInputInvalidSeedChoice() {
+            string input = "4";
 
-            var sim = new Simulation(new InvalidSeedSelectionInput(), new Validator());
-
-            Assert.Throws<Exception>(sim.Start);
+            var validator = new Validator();
+            
+            Assert.False(validator.ValidSelection(input));
         }
     }
 }

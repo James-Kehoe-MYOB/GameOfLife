@@ -7,7 +7,7 @@ namespace GameOfLifeTests {
         [InlineData(true, Cell.Alive)]
         [InlineData(false, Cell.Dead)]
         public void CellDisplaysCorrectSymbolWhenAliveOrDead(bool isAlive, char display) {
-            var cell = new Cell(1, 1, isAlive);
+            var cell = new Cell(1, 1, isAlive, new BaseCellLogic());
 
             Assert.Equal(display, cell.Display);
         }
@@ -19,7 +19,7 @@ namespace GameOfLifeTests {
         [InlineData(3, true)]
         [InlineData(4, false)]
         public void AliveCellUpdatesCorrectlyWithGivenAmountOfAliveNeighbours(int aliveNeighbours, bool isAlive) {
-            var cell = new Cell(1, 1, true) {AliveNeighbours = aliveNeighbours};
+            var cell = new Cell(1, 1, true, new BaseCellLogic()) {AliveNeighbours = aliveNeighbours};
 
             cell.Update();
 
@@ -33,7 +33,7 @@ namespace GameOfLifeTests {
         [InlineData(3, true)]
         [InlineData(4, false)]
         public void DeadCellUpdatesCorrectlyWithGivenAmountOfAliveNeighbours(int aliveNeighbours, bool isAlive) {
-            var cell = new Cell(1, 1, false) {AliveNeighbours = aliveNeighbours};
+            var cell = new Cell(1, 1, false, new BaseCellLogic()) {AliveNeighbours = aliveNeighbours};
 
             cell.Update();
 
