@@ -1,9 +1,13 @@
+using System;
 using System.Collections.Generic;
-using GameOfLife.Business_Logic.Models;
 using GameOfLife.Data_Access.Interfaces;
 
 namespace GameOfLife.Business_Logic.Interfaces {
     public interface IUserInterface {
+
+        public ConsoleKey ExitKey { get; }
+
+        public ConsoleKey ResetKey { get; }
 
         public void Write(string text);
 
@@ -15,7 +19,11 @@ namespace GameOfLife.Business_Logic.Interfaces {
 
         public void WriteChoices();
 
-        public ISeedHandler ReadSelection(string selection);
+        public void Clear();
+
+        public ConsoleKeyInfo ReadKey();
+
+        public bool NoKeyPressed();
 
     }
 }

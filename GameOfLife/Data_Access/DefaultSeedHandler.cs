@@ -1,5 +1,3 @@
-using System.Linq;
-using GameOfLife.Business_Logic;
 using GameOfLife.Data;
 using GameOfLife.Data_Access.Interfaces;
 

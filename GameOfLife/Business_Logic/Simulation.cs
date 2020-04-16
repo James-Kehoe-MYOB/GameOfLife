@@ -1,13 +1,11 @@
 using System;
-using System.Diagnostics;
-using System.Net.Mime;
 using System.Threading;
 using GameOfLife.Business_Logic.Interfaces;
 using GameOfLife.Business_Logic.Models;
 using GameOfLife.Data_Access.Interfaces;
 
 namespace GameOfLife.Business_Logic {
-    public class Simulation : ISimulation {
+    public class Simulation {
         private const int StepTime = 200;
         private readonly IUserInterface _userInterface;
         private readonly IValidator _validator;
@@ -18,7 +16,39 @@ namespace GameOfLife.Business_Logic {
             _validator = validator;
         }
 
-        public GameBoard GenerateGameBoard(ISeedHandler handler) {
+        public void Start() {
+            while (true) {
+                var selection = "";
+                _userInterface.WriteChoices();
+                selection = _userInterface.Read();
+                while (!_validator.ValidSelection(selection)) {
+                    _userInterface.WriteLine("Invalid Selection!");
+                    _userInterface.WriteChoices();
+                    selection = _userInterface.Read();
+                }
+
+                try {
+                    var seedHandler = SeedHandlerGenerator.ParseSelection(selection, _userInterface, _validator);
+                    gameBoard = GenerateGameBoard(seedHandler);
+                }
+                catch (Exception e) {
+                    _userInterface.WriteLine(e.Message);
+                    return;
+                }
+
+                do {
+                    while (!_userInterface.NoKeyPressed()) {
+                        GameLoop();
+                    }
+                } while (_userInterface.ReadKey().Key != _userInterface.ExitKey);
+
+                _userInterface.WriteLine("Press any key to exit, or R to reset");
+                if (_userInterface.ReadKey().Key != _userInterface.ResetKey) return;
+                _userInterface.Clear();
+            }
+        }
+        
+        private GameBoard GenerateGameBoard(ISeedHandler handler) {
             try {
                 var name = handler.GetName();
                 var height = handler.GetHeight();
@@ -28,47 +58,16 @@ namespace GameOfLife.Business_Logic {
                 return new GameBoard(properties, _userInterface);
             }
             catch (Exception e) {
-                Console.WriteLine(e.Message);
+                _userInterface.WriteLine(e.Message);
                 Environment.Exit(0);
             }
 
             return null;
         }
 
-        public void Start() {
-            while (true) {
-                _userInterface.WriteChoices();
-                var selection = _userInterface.Read();
-                if (_validator.ValidSelection(selection)) {
-                    gameBoard = GenerateGameBoard(_userInterface.ReadSelection(selection));
-                }
-                else {
-                    Console.WriteLine("Invalid Selection");
-                    Thread.Sleep(500);
-                    Console.Clear();
-                    continue;
-                }
-
-                do {
-                    while (!Console.KeyAvailable) {
-                        GameLoop();
-                    }
-                } while (Console.ReadKey(false).Key != ConsoleKey.Enter);
-                
-                
-                Console.WriteLine("Try Again? (Y/N)");
-                if (Console.ReadKey(false).Key == ConsoleKey.Y) {
-                    Console.Clear();
-                    continue;
-                }
-
-                break;
-            }
-        }
-
         private void GameLoop() {
-            System.Threading.Thread.Sleep(StepTime);
-            Console.Clear();
+            Thread.Sleep(StepTime);
+            _userInterface.Clear();
             gameBoard.Step();
         }
     }

@@ -12,13 +12,13 @@ namespace GameOfLifeTests {
             Assert.Equal(display, cell.Display);
         }
 
-        [Theory(DisplayName = "Alive Cell Updates Correctly With Given Amount of Alive Neighbours")]
+        [Theory(DisplayName = "Alive Cell Updates Correctly With Given Amount of Alive Neighbours (Base Logic)")]
         [InlineData(0, false)]
         [InlineData(1, false)]
         [InlineData(2, true)]
         [InlineData(3, true)]
         [InlineData(4, false)]
-        public void AliveCellUpdatesCorrectlyWithGivenAmountOfAliveNeighbours(int aliveNeighbours, bool isAlive) {
+        public void AliveCellUpdatesCorrectlyWithGivenAmountOfAliveNeighboursBaseLogic(int aliveNeighbours, bool isAlive) {
             var cell = new Cell(1, 1, true, new BaseCellLogic()) {AliveNeighbours = aliveNeighbours};
 
             cell.Update();
@@ -26,13 +26,13 @@ namespace GameOfLifeTests {
             Assert.Equal(isAlive, cell.IsAlive);
         }
 
-        [Theory(DisplayName = "Dead Cell Updates Correctly With Given Amount of Alive Neighbours")]
+        [Theory(DisplayName = "Dead Cell Updates Correctly With Given Amount of Alive Neighbours (Base Logic)")]
         [InlineData(0, false)]
         [InlineData(1, false)]
         [InlineData(2, false)]
         [InlineData(3, true)]
         [InlineData(4, false)]
-        public void DeadCellUpdatesCorrectlyWithGivenAmountOfAliveNeighbours(int aliveNeighbours, bool isAlive) {
+        public void DeadCellUpdatesCorrectlyWithGivenAmountOfAliveNeighboursBaseLogic(int aliveNeighbours, bool isAlive) {
             var cell = new Cell(1, 1, false, new BaseCellLogic()) {AliveNeighbours = aliveNeighbours};
 
             cell.Update();

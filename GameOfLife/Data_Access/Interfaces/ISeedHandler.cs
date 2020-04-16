@@ -1,4 +1,5 @@
 using GameOfLife.Business_Logic;
+using GameOfLife.Data;
 
 namespace GameOfLife.Data_Access.Interfaces {
     public interface ISeedHandler {

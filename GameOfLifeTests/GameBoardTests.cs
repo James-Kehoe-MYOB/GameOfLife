@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using GameOfLife.Business_Logic;
+using GameOfLife.Business_Logic.Exceptions;
 using GameOfLife.Business_Logic.Models;
+using GameOfLife.Data;
 using Xunit;
 
 namespace GameOfLifeTests {
@@ -76,5 +79,24 @@ namespace GameOfLifeTests {
                 Assert.Equal(gb2.CellData[i].Display, gb1.CellData[i].Display);
             }
         }
+
+        [Fact(DisplayName = "Attempting to Fill a GameBoard With Insufficient Data Throws an Exception")]
+
+        public void AttemptingToFillAGameBoardWithInsufficientDataThrowsAnException() {
+            const string insufficientData = "010";
+
+            Assert.Throws<InsufficientBoardDataException>(() => new GameBoard(new BoardProperties(SeedName.Custom, 5, 5, insufficientData),
+                new ConsoleUI()));
+        }
+        
+        [Theory(DisplayName = "Attempting to Fill a GameBoard With an Invalid Data Format Throws an Exception")]
+        [InlineData("_INVALID_")]
+        [InlineData("123456789")]
+        public void AttemptingToFillAGameBoardWithAnInvalidDataFormatThrowsAnException(string data) {
+
+            Assert.Throws<InvalidBoardDataFormatException>(() => new GameBoard(new BoardProperties(SeedName.Custom, 3, 3, data),
+                new ConsoleUI()));
+        }
+        
     }
 }

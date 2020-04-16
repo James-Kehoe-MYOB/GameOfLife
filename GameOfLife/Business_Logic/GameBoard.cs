@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using GameOfLife.Business_Logic.Exceptions;
 using GameOfLife.Business_Logic.Interfaces;
 using GameOfLife.Business_Logic.Models;
 
@@ -22,7 +23,7 @@ namespace GameOfLife.Business_Logic {
                 var isAlive = c switch {
                     '0' => false,
                     '1' => true,
-                    _ => throw new Exception()
+                    _ => throw new InvalidBoardDataFormatException()
                 };
                 CellData.Add(new Cell(x, y, isAlive, new BaseCellLogic()));
                 if (x < BoardProperties.Width) {
@@ -31,6 +32,10 @@ namespace GameOfLife.Business_Logic {
                     x = 1;
                     y++;
                 }
+            }
+
+            if (CellData.Count != BoardProperties.Height * BoardProperties.Width) {
+                throw new InsufficientBoardDataException();
             }
         }
 

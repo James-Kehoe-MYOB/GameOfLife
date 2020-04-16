@@ -1,4 +1,4 @@
-using GameOfLife.Business_Logic.Models;
+
 
 namespace GameOfLife.Business_Logic.Interfaces {
     public interface IGameBoard {

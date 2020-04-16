@@ -1,5 +1,4 @@
-﻿
-using GameOfLife.Business_Logic;
+﻿using GameOfLife.Business_Logic;
 
 namespace GameOfLife {
     class EntryPoint {

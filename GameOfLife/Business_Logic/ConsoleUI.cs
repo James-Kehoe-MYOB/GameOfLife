@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
+using GameOfLife.Business_Logic.Exceptions;
 using GameOfLife.Business_Logic.Interfaces;
-using GameOfLife.Business_Logic.Models;
 using GameOfLife.Data;
 using GameOfLife.Data_Access;
 using GameOfLife.Data_Access.Interfaces;
 
 namespace GameOfLife.Business_Logic {
     public class ConsoleUI : IUserInterface {
+        public ConsoleKey ExitKey { get; } = ConsoleKey.Enter;
+        public ConsoleKey ResetKey { get; } = ConsoleKey.R;
+
         public void Write(string text) {
             Console.Write(text);
         }
@@ -24,28 +26,28 @@ namespace GameOfLife.Business_Logic {
         public void WriteBoard(IEnumerable<Cell> board, int height, int width) {
             var split = 0;
             var count = 0;
-            Console.Write("\u2554");
+            Console.Write("╔");
             for (var i = 0; i < 2*width+1; i++) {
-                Console.Write("\u2550");
+                Console.Write("═");
             }
 
-            Console.Write("\u2557" + "\n\u2551 ");
+            Console.Write("╗" + "\n║ ");
             foreach (var cell in board) {
                 Console.Write(cell.Display + " ");
                 split++;
                 if (split == width && count != height-1) {
-                    Console.Write("\u2551\n\u2551 ");
+                    Console.Write("║\n║ ");
                     split = 0;
                     count++;
                 } else if (split == width && count == height-1) {
-                    Console.Write("\u2551\n" + "\u2560");
+                    Console.Write("║\n" + "╠");
                 }
             }
             for (var i = 0; i < 2*width+1; i++) {
-                Console.Write(i == 21 ? "\u2566" : "\u2550");
+                Console.Write(i == 21 ? "╦" : "═");
             }
-            Console.WriteLine(width == 10 ? "\u2563" : "\u255D");
-            Console.WriteLine("\u2551 Press Enter to Quit \u2551");
+            Console.WriteLine(width == 10 ? "╣" : "╝");
+            Console.WriteLine("║ Press Enter to Quit ║");
             Console.Write("╚═════════════════════╝");
             Console.CursorVisible = false;
         }
@@ -58,13 +60,25 @@ namespace GameOfLife.Business_Logic {
                           "Your Selection: ");
         }
 
-        public ISeedHandler ReadSelection(string selection) {
+        public ISeedHandler ParseSelection(string selection) {
             return selection switch {
                 "1" => new DefaultSeedHandler(SeedName.Glider),
                 "2" => new DefaultSeedHandler(SeedName.SmallExploder),
                 "3" => new CustomSeedHandler(this, new Validator()),
-                _ => throw new Exception()
+                _ => throw new SelectionOutOfRangeException()
             };
+        }
+
+        public void Clear() {
+            Console.Clear();
+        }
+
+        public ConsoleKeyInfo ReadKey() {
+            return Console.ReadKey();
+        }
+
+        public bool NoKeyPressed() {
+            return Console.KeyAvailable;
         }
     }
 }

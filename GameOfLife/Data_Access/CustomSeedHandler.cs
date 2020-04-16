@@ -1,7 +1,5 @@
 using System;
 using System.Text;
-using GameOfLife.Business_Logic;
-using GameOfLife.Business_Logic.Exceptions;
 using GameOfLife.Business_Logic.Interfaces;
 using GameOfLife.Data;
 using GameOfLife.Data_Access.Interfaces;
@@ -49,8 +47,8 @@ namespace GameOfLife.Data_Access {
         }
 
         public string GetSeed() {
-            Console.Write("Input Custom Seed: ");
-            var input = Console.ReadLine();
+            _userInterface.Write("Input Custom Seed: ");
+            var input = _userInterface.Read();
             var customseed = ConvertSeedToData(_height, _width, input);
             return customseed;
         }

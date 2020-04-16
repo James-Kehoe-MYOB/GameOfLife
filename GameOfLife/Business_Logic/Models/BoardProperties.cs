@@ -1,4 +1,4 @@
-using GameOfLife.Business_Logic.Interfaces;
+using GameOfLife.Data;
 
 namespace GameOfLife.Business_Logic.Models {
     public class BoardProperties {
