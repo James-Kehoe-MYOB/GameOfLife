@@ -29,7 +29,8 @@ namespace GameOfLifeTests {
             mock.Setup(f => f.NoKeyPressed()).Returns(true);
             mock.Setup(f => f.ExitKey).Returns(new ConsoleUI().ExitKey);
 
-            mock.Setup(f => f.ReadKey()).Returns(new ConsoleKeyInfo(' ', new ConsoleUI().ExitKey, false, false,false));
+            mock.Setup(f => f.ReadKey()).Returns(new ConsoleKeyInfo(' ', 
+                new ConsoleUI().ExitKey, false, false,false));
 
             var sim = new Simulation(mock.Object, validator);
             
